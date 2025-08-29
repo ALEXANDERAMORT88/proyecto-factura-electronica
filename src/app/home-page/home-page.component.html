@@ -23,7 +23,7 @@
 <section class="info_navbar">
     <!-- logo, y botones de información. -->
     <div class="info_navbar_funcionalidades">
-        <img class="img_logo" src="./img/colombia.png" alt="">
+        <img class="img_logo" src="assets/img-home-page/colombia.png" alt="">
         <div class="btn_inicio">Inicio</div>
         <div class="btn_planes">Planes y precios</div>
         <div class="btn_producto">Productos </div>
@@ -32,14 +32,17 @@
     <!-- Botones de para acceder a recursos y inicio de sessión -->
     <div class="inf_sesion">
         <div class="btn_recursos">Recursos</div>
-        <div class="dropdown">
-            <button class="btn_inicio">Iniciar sesión</button>
+        <div class="dropdown" (mouseenter)="displayMenu()" (mouseleave)="closeMenu()">
+            <button  class="btn_inicio">Iniciar sesión</button>
+
+            @if (menuDesplegado){
             <ul class="dropdown_menu" id="menu_dropdown">
-                <li value="" id="opc_contador">Contador</li>
-                <li id="opc_fact_electronica">Facturación</li>
-                <li id="opc_fact_pos">Facturación POS</li>
-                <li id="opc_tienda">Tienda</li>
+                <li (click)="goLogin('Contador')" id="opc_contador">Contador</li>
+                <li (click)="goLogin('Facturación')" id="opc_fact_electronica">Facturación</li>
+                <li (click)="goLogin('Facturación POS')" id="opc_fact_pos">Facturación POS</li>
+                <li (click)="goLogin('Tienda')" id="opc_tienda">Tienda</li>
             </ul>
+            }
         </div>
     </div>
 

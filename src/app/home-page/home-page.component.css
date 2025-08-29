@@ -89,7 +89,7 @@
 
 /* Menú oculto */
 .dropdown_menu {
-    display: none;
+    /* display: none; */
     position: absolute;
     top: 110%;
     left: 0;
@@ -121,7 +121,7 @@
     position: relative;
     width: 100%;
     min-height: 400px;
-    background-image: url('../assets/img-home-page/img\ fondo.jpg');
+    background-image: url('../../assets/img-home-page/img\ fondo.jpg');
     background-size: cover;
     background-position: center;
     display: grid;
