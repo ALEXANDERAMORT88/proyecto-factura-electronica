@@ -1,59 +1,37 @@
-# ProyectoFacturaElectronica
+🧾 Facturación Electrónica Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.6.
+Este proyecto consiste en el desarrollo de una página web de Facturación Electrónica, diseñada para facilitar a empresas y emprendedores el cumplimiento de las normativas exigidas por la DIAN (Dirección de Impuestos y Aduanas Nacionales de Colombia).
 
-## Development server
+🚀 Objetivo
 
-To start a local development server, run:
+El objetivo principal es ofrecer una herramienta moderna, accesible y funcional que permita a los usuarios emitir facturas electrónicas de manera ágil y conforme a los requerimientos legales actuales.
 
-```bash
-ng serve
-```
+🛠️ Tecnologías
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Tecnologías utilizadas (Versión inicial en Vanilla JS)
 
-## Code scaffolding
+✅ HTML5
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+🧑‍🎨 CSS3
 
-```bash
-ng generate component component-name
-```
+🧙‍♂️ JavaScript
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Tecnologías en proceso de implementación (Migración a Angular)
 
-```bash
-ng generate --help
-```
+🛠️ Angular: Framework principal para el frontend.
 
-## Building
+🎚️ Node.js + Express: Para el backend (en proceso de implementación).
 
-To build the project run:
+📟 MongoDB: Base de datos para el almacenamiento de información (en proceso de implementación).
 
-```bash
-ng build
-```
+📦 Funcionalidades principales
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+🤗 Registro y autenticación de usuarios.
 
-## Running unit tests
+📑 Creación y emisión de facturas electrónicas.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+💼 Gestión de clientes y productos/servicios.
 
-```bash
-ng test
-```
+📋 Validación de datos exigidos por la DIAN.
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Generación de reportes.

@@ -54,7 +54,6 @@
 <section class="contenedor_opciones">
 
     <div class="paso_a_paso">
-
     </div>
 
     <section class="facturacion" id="contendor_de_seleccion">
@@ -99,24 +98,88 @@
                 <div class="contenedor_info_compra">
                     <!-- Tenemos los distintos tipos de documento que el cliente tiene que seleccionar -->
                     <label for="tipoDocumento">Tipo Documento</label>
-                    <select id="tipoDocumento">
-                        <option value="1">Tipo Documento</option>
+                    <select id="tipoDocumento" formControlName="tipoDocumento"
+                        [ngClass]="{'is-invalid': registerForm.get('tipoDocumento')?.invalid && (registerForm.get('tipoDocumento')?.touched || submitted)}">
+                        <option value="">Tipo Documento</option>
                         <option value="CC">Cédula de ciudadanía</option>
                         <option value="NIT">NIT</option>
                         <option value="PAS">Pasaporte</option>
                         <option value="CE">Cédula Extranjería</option>
                         <option value="RUT">RUT</option>
                     </select>
+                    @if (registerForm.get('tipoDocumento')?.invalid && (registerForm.get('tipoDocumento')?.touched ||
+                    submitted)) {
+                    <div class="requerido">Este camoi es requerido</div>
+                    }
                     <!-- En cada uno de los Input vamos a ingresar la informacion esencial
               para crear una sesión y poder gestionar los distintos documentos -->
-                    <input id="numero_identificacion" type="text" placeholder="Número de documento">
-                    <input id="nombre_usuario" type="text" placeholder="Nombres y Apellidos">
-                    <input id="numero_celular" type="text" placeholder="Celular">
-                    <input id="email_usuario" type="text" placeholder="E-mail">
-                    <input id="confirmacion_email" type="text" placeholder="Confirmar e-mail">
-                    <input id="password_ingreso" type="password" placeholder="Contraseña">
-                    <input id="confirmacion_contraseña" type="password" placeholder="Confirmar contraeña">
+                    <input formControlName="numeroIdentificacion"
+                        [ngClass]="{'is-invalid': registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.touched || submitted}"
+                        placeholder="Número de documento">
+                    @if (registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.
+                    touched || submitted) {
+                    <div class="requerido">este campo es requerido</div>
+                    }
 
+                    <input formControlName="nombreUsuario"
+                        [ngClass]="{'is-invalid': registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched || submitted}"
+                        type="text" placeholder="Nombres y Apellidos">
+                    @if (registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched ||
+                    submitted) {
+                    <div class="requerido">Este campo es requerido</div>
+                    }
+
+                    <input formControlName="numeroCelular"
+                        [ngClass]="{'is-invalid': registerForm.get('numeroCelular')?.invalid && registerForm.get('numeroCelular')?.touched || submitted}"
+                        type="text" placeholder="Celular">
+                    @if (registerForm.get('numeroCelular')?.invalid && registerForm.get('numeroCelular')?.touched ||
+                    submitted) {
+                    <div class="requerido">Este campo es requerido</div>
+                    }
+
+                    <input formControlName="emailUsuario"
+                        [ngClass]="{'is-invalid': registerForm.get('emailUsuario')?.invalid && registerForm.get('emailUsuario')?.touched || submitted}"
+                        type="email" placeholder="E-mail">
+                    @if (registerForm.get('emailUsuario')?.errors?.['required'] &&
+                    registerForm.get('emailUsuario')?.touched || submitted){
+                    <div class="requerido">Este campo es requerido</div>
+                    }@else if(registerForm.get('emailUsuario')?.errors?.['required'] &&
+                    registerForm.get('emailUsuario')?.touched || submitted) {
+                    <div class="emailValido">Ingresa un email valido</div>
+                    }
+
+                    <input formControlName="confirmacionEmail"
+                        [ngClass]="{'is-invalid': registerForm.get('confirmacionEmail')?.invalid && (registerForm.get('confirmacionEmail')?.touched || submitted) || (registerForm.get('confirmacionEmail')?.value !== registerForm.get('emailUsuario')?.value && (registerForm.get('confirmacionEmail')?.touched || submitted))}"
+                        type="text" placeholder="Confirmar e-mail">
+                    @if (registerForm.get('confirmacionEmail')?.invalid &&
+                    registerForm.get('confirmacionEmail')?.touched || submitted) {
+                    <div class="requrido">Este campo es requerido</div>
+                    }@else if (registerForm.get('confirmacionEmail')?.value !==
+                    registerForm.get('confirmacionEmail')?.value && (registerForm.get('confirmacionEmail')?.touched ||
+                    submitted)) {
+                    <div class="emailNoCoincide">Los correos no coinciden</div>
+                    }
+
+                    <input formControlName="passwordIngreso"
+                        [ngClass]="{'is-invalid': registerForm.get('passwordIngreso')?.invalid && registerForm.get('passwordIngreso')?.touched || submitted}"
+                        type="password" placeholder="Contraseña">
+                    @if (registerForm.get('passwordIngreso')?.invalid && registerForm.get('passwordIngreso')?.touched ||
+                    submitted) {
+                    <div class="resquerido">Este campo es requerido</div>
+                    }
+
+                    <input formControlName="confirmacionPassword"
+                        [ngClass]="{'is-invalid': registerForm.get('confirmacionPassword')?.invalid && (registerForm.get('confirmacionPassword')?.touched || submitted) || (registerForm.get('passwordIngreso')?.value !== registerForm.get('passwordIngreso')?.value && (registerForm.get('confirmacionPassword')?.touched || submitted))}"
+                        type="password" placeholder="Confirmar contraeña">
+                        @if (registerForm.get('confirmacionPassword')?.invalid && (registerForm.get('confirmacionPassword')?.touched || submitted)) {
+                            <div class="requerido">Este campo es requerido</div>
+                        }@else if (registerForm.get('confirmacionPassword')?.value !== registerForm.get('confirmacionPassword')?.value && (registerForm.get('confirmacionPassword')?.touched || submitted)) {
+                            <div class="PasswordNoCoincide">Las contraseñas no coinciden</div>
+                        }
+                        <!-- Mensaje de error general si la forma no es válida -->
+                         @if (registerForm.invalid && submitted) {
+                            <span>Por favor, completa correctamente todos los campos</span>
+                         }
                 </div>
                 <!-- Desde el Button vamos a poder enviar la informacion suministrada a nustro BackEnd
             y de hay a nuetsra DB que es MongoDB -->
