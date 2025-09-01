@@ -21,7 +21,7 @@
     <!-- Contenedor para el registro de información -->
     <div class="info_navbar_funcionalidades">
         <!-- logo, y botones de información. -->
-        <img class="img_logo" src="./img/colombia.png" alt="" />
+        <img class="img_logo" src="../../assets/img-home-page/colombia.png" alt="" />
         <div class="btn_inicio">Inicio</div>
         <div class="planes">Planes y precios</div>
         <div class="producto">Productos</div>
@@ -73,7 +73,7 @@
                 <h3>Facturación electrónica <br> 24</h3>
                 <h4>$ 9.075 / mes*</h4>
                 <h4> $ 108.900 / año</h4>
-                <button (click)="showFrom()">¡Compralo ahora!</button>
+                <button (click)="showForm()">¡Compralo ahora!</button>
             </span>
 
             <span class="whatsApp"></span>
@@ -86,106 +86,101 @@
 
         <div class="contenedor_formulario_registro">
 
-            <button (click)="hideForm()">Regresar</button>
-            <!-- Formulario que nos va a permitir crear el cliente (persona o empresa que va a generar las facturas) -->
-            <form id="formulario_registro" action="">
+            <div class="contenedro_regreso">
+                <button (click)="hideForm()"><img src="assets/img-register-page/flecha-izquierda.png" alt="">Regresar</button>
+            </div>
+
+            <div class="contenedor_info_cuenta">
                 <h2>Creando tu cuenta</h2>
-                <p>Da el primer paso hacia el crecimiento de tu negocio: ingresa tus datos y explora todo lo que tiene
-                    para
-                    ti.
-                </p>
+                <p class="info_parrafo">Da el primer paso hacia el crecimiento de tu negocio: ingresa tus datos y
+                    explora todo lo que tiene para ti.</p>
+            </div>
+
+
+            <!-- Formulario que nos va a permitir crear el cliente (persona o empresa que va a generar las facturas) -->
+
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="formulario_registro">
 
                 <div class="contenedor_info_compra">
                     <!-- Tenemos los distintos tipos de documento que el cliente tiene que seleccionar -->
                     <label for="tipoDocumento">Tipo Documento</label>
-                    <select id="tipoDocumento" formControlName="tipoDocumento"
-                        [ngClass]="{'is-invalid': registerForm.get('tipoDocumento')?.invalid && (registerForm.get('tipoDocumento')?.touched || submitted)}">
-                        <option value="">Tipo Documento</option>
+                    <select formGroupName="tipoDocumento" id="tipoDocumento">
                         <option value="CC">Cédula de ciudadanía</option>
                         <option value="NIT">NIT</option>
                         <option value="PAS">Pasaporte</option>
                         <option value="CE">Cédula Extranjería</option>
                         <option value="RUT">RUT</option>
                     </select>
-                    @if (registerForm.get('tipoDocumento')?.invalid && (registerForm.get('tipoDocumento')?.touched ||
-                    submitted)) {
-                    <div class="requerido">Este camoi es requerido</div>
-                    }
-                    <!-- En cada uno de los Input vamos a ingresar la informacion esencial
-              para crear una sesión y poder gestionar los distintos documentos -->
-                    <input formControlName="numeroIdentificacion"
-                        [ngClass]="{'is-invalid': registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.touched || submitted}"
-                        placeholder="Número de documento">
-                    @if (registerForm.get('numeroIdentificacion')?.invalid && registerForm.get('numeroIdentificacion')?.
-                    touched || submitted) {
-                    <div class="requerido">este campo es requerido</div>
-                    }
 
-                    <input formControlName="nombreUsuario"
-                        [ngClass]="{'is-invalid': registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched || submitted}"
-                        type="text" placeholder="Nombres y Apellidos">
-                    @if (registerForm.get('nombreUsuario')?.invalid && registerForm.get('nombreUsuario')?.touched ||
-                    submitted) {
-                    <div class="requerido">Este campo es requerido</div>
-                    }
+                    <!-- Nombre -->
+                    <div>
+                        <input type="text" formControlName="nombre" placeholder="Nombre">
+                        <div *ngIf="f['nombre'].touched && f['nombre'].invalid" class="error">
+                            El nombre es obligatorio
+                        </div>
+                    </div>
 
-                    <input formControlName="numeroCelular"
-                        [ngClass]="{'is-invalid': registerForm.get('numeroCelular')?.invalid && registerForm.get('numeroCelular')?.touched || submitted}"
-                        type="text" placeholder="Celular">
-                    @if (registerForm.get('numeroCelular')?.invalid && registerForm.get('numeroCelular')?.touched ||
-                    submitted) {
-                    <div class="requerido">Este campo es requerido</div>
-                    }
+                    <!-- Email -->
+                    <div>
+                        <input type="email" formControlName="email" placeholder="Correo electrónico">
+                        <div *ngIf="f['email'].touched && f['email'].hasError('required')" class="error">
+                            El correo es obligatorio
+                        </div>
+                        <div *ngIf="f['email'].touched && f['email'].hasError('email')" class="error">
+                            El correo no es válido
+                        </div>
+                    </div>
 
-                    <input formControlName="emailUsuario"
-                        [ngClass]="{'is-invalid': registerForm.get('emailUsuario')?.invalid && registerForm.get('emailUsuario')?.touched || submitted}"
-                        type="email" placeholder="E-mail">
-                    @if (registerForm.get('emailUsuario')?.errors?.['required'] &&
-                    registerForm.get('emailUsuario')?.touched || submitted){
-                    <div class="requerido">Este campo es requerido</div>
-                    }@else if(registerForm.get('emailUsuario')?.errors?.['required'] &&
-                    registerForm.get('emailUsuario')?.touched || submitted) {
-                    <div class="emailValido">Ingresa un email valido</div>
-                    }
+                    <!-- Confirmación Email -->
+                    <div>
+                        <input type="email" formControlName="confirmacionEmail"
+                            placeholder="Confirmar correo electrónico">
+                        <div *ngIf="f['confirmacionEmail'].touched && f['confirmacionEmail'].hasError('required')"
+                            class="error">
+                            Debes confirmar el correo
+                        </div>
+                        <div *ngIf="f['confirmacionEmail'].touched && f['confirmacionEmail'].hasError('email')"
+                            class="error">
+                            El correo no es válido
+                        </div>
+                        <div *ngIf="f['confirmacionEmail'].hasError('emailMismatch')" class="error">
+                            Los correos no coinciden
+                        </div>
+                    </div>
 
-                    <input formControlName="confirmacionEmail"
-                        [ngClass]="{'is-invalid': registerForm.get('confirmacionEmail')?.invalid && (registerForm.get('confirmacionEmail')?.touched || submitted) || (registerForm.get('confirmacionEmail')?.value !== registerForm.get('emailUsuario')?.value && (registerForm.get('confirmacionEmail')?.touched || submitted))}"
-                        type="text" placeholder="Confirmar e-mail">
-                    @if (registerForm.get('confirmacionEmail')?.invalid &&
-                    registerForm.get('confirmacionEmail')?.touched || submitted) {
-                    <div class="requrido">Este campo es requerido</div>
-                    }@else if (registerForm.get('confirmacionEmail')?.value !==
-                    registerForm.get('confirmacionEmail')?.value && (registerForm.get('confirmacionEmail')?.touched ||
-                    submitted)) {
-                    <div class="emailNoCoincide">Los correos no coinciden</div>
-                    }
+                    <!-- Password -->
+                    <div>
+                        <input type="password" formControlName="passwordIngreso" placeholder="Contraseña">
+                        <div *ngIf="f['passwordIngreso'].touched && f['passwordIngreso'].hasError('required')"
+                            class="error">
+                            La contraseña es obligatoria
+                        </div>
+                        <div *ngIf="f['passwordIngreso'].touched && f['passwordIngreso'].hasError('minlength')"
+                            class="error">
+                            La contraseña debe tener mínimo 6 caracteres
+                        </div>
+                    </div>
 
-                    <input formControlName="passwordIngreso"
-                        [ngClass]="{'is-invalid': registerForm.get('passwordIngreso')?.invalid && registerForm.get('passwordIngreso')?.touched || submitted}"
-                        type="password" placeholder="Contraseña">
-                    @if (registerForm.get('passwordIngreso')?.invalid && registerForm.get('passwordIngreso')?.touched ||
-                    submitted) {
-                    <div class="resquerido">Este campo es requerido</div>
-                    }
+                    <!-- Confirmación Password -->
+                    <div>
+                        <input type="password" formControlName="confirmacionPassword"
+                            placeholder="Confirmar contraseña">
+                        <div *ngIf="f['confirmacionPassword'].touched && f['confirmacionPassword'].hasError('required')"
+                            class="error">
+                            Debes confirmar la contraseña
+                        </div>
+                        <div *ngIf="f['confirmacionPassword'].hasError('passwordMismatch')" class="error">
+                            Las contraseñas no coinciden
+                        </div>
+                    </div>
 
-                    <input formControlName="confirmacionPassword"
-                        [ngClass]="{'is-invalid': registerForm.get('confirmacionPassword')?.invalid && (registerForm.get('confirmacionPassword')?.touched || submitted) || (registerForm.get('passwordIngreso')?.value !== registerForm.get('passwordIngreso')?.value && (registerForm.get('confirmacionPassword')?.touched || submitted))}"
-                        type="password" placeholder="Confirmar contraeña">
-                        @if (registerForm.get('confirmacionPassword')?.invalid && (registerForm.get('confirmacionPassword')?.touched || submitted)) {
-                            <div class="requerido">Este campo es requerido</div>
-                        }@else if (registerForm.get('confirmacionPassword')?.value !== registerForm.get('confirmacionPassword')?.value && (registerForm.get('confirmacionPassword')?.touched || submitted)) {
-                            <div class="PasswordNoCoincide">Las contraseñas no coinciden</div>
-                        }
-                        <!-- Mensaje de error general si la forma no es válida -->
-                         @if (registerForm.invalid && submitted) {
-                            <span>Por favor, completa correctamente todos los campos</span>
-                         }
                 </div>
-                <!-- Desde el Button vamos a poder enviar la informacion suministrada a nustro BackEnd
-            y de hay a nuetsra DB que es MongoDB -->
-                <button type="submit">Crea tu cuenta</button>
-
+                <button type="submit">Registrarse</button>
             </form>
+
+
+
 
         </div>
 

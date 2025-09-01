@@ -1,11 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgClass } from "@angular/common";
+import { Component, signal } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-register-page',
   standalone: true, 
-  imports: [NgClass],
+  imports: [ReactiveFormsModule,CommonModule, FormsModule],
   templateUrl: './register-page.component.html',
   styleUrls: ['./register-page.component.css']
 })
@@ -27,7 +27,7 @@ export class RegisterPageComponent {
   }
   
   // Método para mostrar el formulario.
-  showFrom() {
+  showForm() {
     this.buttonHideForm.set(true);
     this.hideBuys();
   }
@@ -41,44 +41,48 @@ export class RegisterPageComponent {
   registerForm!: FormGroup;
   submitted = false; // Controlamos el estado del envío del formulario.
 
-  // Utilizamos la función "inject" con la cúal podemos obtener y propocionar un servicio.
-  private fb = inject(FormBuilder);
-
-  ngOnInit() {
+  constructor(private fb: FormBuilder) {
     this.registerForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
-      numeroIdentificacion: ['', Validators.required],
-      nombreUsuario: ['', Validators.required],
-      numeroCelular: ['', Validators.required],
-      emailUsuario: ['', Validators.required],
-      confirmacionEmail: ['', Validators.required],
-      passwordIngreso: ['', Validators.required],
+      nombre: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      confirmacionEmail: ['',[Validators.required, Validators.email]],
+      passwordIngreso: ['', [Validators.required, Validators.minLength(6)]],
       confirmacionPassword: ['', Validators.required]
     });
   }
 
-  // Getter Para acceder facimente a los campos del formulario
-  get f() { return this.registerForm.controls}
 
-  // Método para el envio del formulario
+  // ngOnInit() {
+  //   if (this.registerForm.invalid) {
+  //     this.registerForm.markAllAsTouched() // Marca todos los campos como tocados.
+  //     return;
+  //   }
+  //   console.log("Formulario válido ✅", this.registerForm.value);
+  // }
+
+  // // Getter Para acceder facimente a los campos del formulario
+  get f() { return this.registerForm.controls }
+
+  // // Método para el envio del formulario
   onSubmit() {
     this.submitted = true;
 
     // Se detiene aquí si el formulario se inválido
     if (this.registerForm.invalid) {
-      return
+      this.registerForm.markAllAsTouched();
+      return;
     }
-    // Validar que los emails conincidan 
-    if (this.f['emailUsuario'].value !== this.f ['confirmacionEmail'].value) {
-      this.f['confirmacionEmail'].setErrors({'emailMismatch': true});
-      return
+    if (this.f['email'].value !== this.f['confirmacionEmail'].value) {
+      this.f['confirmacionEmail'].setErrors({ emailMismatch: true });
+      return;
     }
 
-    // Vlaidar que las contraseñas coincidan 
+    // Validar que las contraseñas coincidan
     if (this.f['passwordIngreso'].value !== this.f['confirmacionPassword'].value) {
-      this.f['confirmacionPassword'].setErrors({'passwordMismatch': true});
+      this.f['confirmacionPassword'].setErrors({ passwordMismatch: true });
+      return;
     }
-
     // si todo es valido, aquí creamos la lógica de envio de datos.
     console.log("Formulario valido, datos enviados: ", this.registerForm.value);
   }
